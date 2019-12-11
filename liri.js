@@ -6,9 +6,11 @@ var moment = require("moment");
 
 var inquirer = require("inquirer");
 
+var Spotify = require('node-spotify-api');
+
 var keys = require("./keys.js");
 
-// var spotify = new spotify(keys.spotify);
+var spotify = new Spotify(keys.spotify);
 
 inquirerLoop();
 
@@ -47,16 +49,33 @@ inquirer.prompt([
                     message: "Please type the song name"
                 }
             ]).then(function (songInput) {
-                console.log("Nice");
+                var songPre = songInput.song;
+                global.song = songPre;
+                spotifyQuery();
                 // inquirerLoop();
-            }) 
+            })
+            break;
+        case "Find details about a movie":
+            inquirer.prompt([
+                {
+                    type: "input",
+                    name: "movie",
+                    message: "Please type the movie name",
+                    default: "Mr. Nobody"
+                }
+            ]).then(function (movieInput) {
+                var moviePre = movieInput.movie;
+                global.movie = moviePre;
+                omdbQuery();
+                inquirerLoop();
+            })
     }
 });
 
 };
 
 
-function bandsInTown(callback) {
+function bandsInTown() {
 
     var bandNameRaw = band;
 
@@ -69,7 +88,7 @@ function bandsInTown(callback) {
 
     axios.get(queryUrl).then(
         function (response) {
-            for (i = 0; i < 10; i++) {
+            for (i = 0; i < response.data.length; i++) {
                 console.log("\n")
                 console.log("Venue: " + response.data[i].venue.name);
                 console.log("Venue Location: " + response.data[i].venue.city + ", " + response.data[i].venue.region);
@@ -86,7 +105,38 @@ function bandsInTown(callback) {
             }
         }
     );
-}
+};
+
+function spotifyQuery() {
+
+    console.log(song);
+
+    spotify
+    .search({ type: 'track', query: song})
+    .then(function(response) {
+        console.log(response);
+    })
+    .catch(function(err) {
+        console.log(err);
+    });
+};
+
+function omdbQuery() {
+    movieName = movie.split(',').join('+');
+    
+    var queryURL = "https://www.omdbapi.com/?t=" + movieName + "&apikey=trilogy";
+
+    axios.get(queryURL).then(
+        function (response) {
+            console.log("\nMovie Title: " + response.data.Title + "\nYear Released: " + response.data.Year
+            + "\nIMDB Rating: " + response.data.imdbRating + "\nRotten Tomatoes Rating: " + response.data.Ratings[1].Value
+            + "\nCountry where movie was produced: " + response.data.Country + "\nLanguage: " + response.data.Language
+            + "\nPlot: " + response.data.Plot + "\nActors: " + response.data.Actors);
+        }
+    )
+};
+
+
 
 
 
