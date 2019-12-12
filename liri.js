@@ -38,7 +38,7 @@ inquirer.prompt([
                 var bandPre = bandInput.band;
                 global.band = bandPre
                 bandsInTown();
-                
+                inquirerLoop();
             })
             break;
         case "Search Spotify for a song":
@@ -109,17 +109,20 @@ function bandsInTown() {
 
 function spotifyQuery() {
 
-    console.log(song);
-
     spotify
     .search({ type: 'track', query: song})
     .then(function(response) {
-        console.log(response);
+        // console.log(JSON.stringify(response, null, 4));
+        console.log("\nArtist(s): " + response.tracks.items[0].artists[0].name);
+        console.log("\nSong: " + response.tracks.items[0].name);
+        console.log("\nPreview Link: " + response.tracks.items[0].preview_url);
+        console.log("\nAlbum: " + response.tracks.items[0].album.name);
     })
     .catch(function(err) {
         console.log(err);
     });
 };
+
 
 function omdbQuery() {
     movieName = movie.split(',').join('+');
@@ -135,6 +138,8 @@ function omdbQuery() {
         }
     )
 };
+
+debugger;
 
 
 
