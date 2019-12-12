@@ -84,7 +84,7 @@ function bandsInTown() {
 
             }
         );
-        inquirerLoop();
+        // inquirerLoop();
     });
 
 };
@@ -99,9 +99,13 @@ function spotifyQuery() {
             message: "Please type the song name"
         }
     ]).then(function (songInput) {
-        var song = songInput.song;
 
-
+        // if else statement that creates a default
+        if (songInput.song.length > 0) {
+            var song = songInput.song;
+        } else {
+            song = "The Sign Ace of Base"
+        }
 
         spotify
             .search({ type: 'track', query: song })
@@ -115,7 +119,7 @@ function spotifyQuery() {
             .catch(function (err) {
                 console.log(err);
             });
-        inquirerLoop();
+        // inquirerLoop();
     });
 };
 
@@ -130,40 +134,30 @@ function omdbQuery() {
             message: "Please type the movie name"
         }
     ]).then(function (movieInput) {
-        if (movieInput.movie > 0) {
 
+        // if else that creates a default movie
+        if (movieInput.movie.length > 0) {
             var movie = movieInput.movie;
-
             movieName = movie.split(',').join('+');
-
-            var queryURL = "https://www.omdbapi.com/?t=" + movieName + "&apikey=trilogy";
-
-            axios.get(queryURL).then(
-                function (response) {
-                    console.log("\nMovie Title: " + response.data.Title + "\nYear Released: " + response.data.Year
-                        + "\nIMDB Rating: " + response.data.imdbRating + "\nRotten Tomatoes Rating: " + response.data.Ratings[1].Value
-                        + "\nCountry where movie was produced: " + response.data.Country + "\nLanguage: " + response.data.Language
-                        + "\nPlot: " + response.data.Plot + "\nActors: " + response.data.Actors);
-                }
-            );
-            inquirerLoop();
         } else {
-            // Searches Mr. Nobody if nothing is typed
-            var queryURL = "https://www.omdbapi.com/?t=" + "Mr. Nobody" + "&apikey=trilogy";
+            movieName = "Mr.+Nobody"
+        };
 
-            axios.get(queryURL).then(
-                function (response) {
-                    console.log("\nMovie Title: " + response.data.Title + "\nYear Released: " + response.data.Year
-                        + "\nIMDB Rating: " + response.data.imdbRating + "\nRotten Tomatoes Rating: " + response.data.Ratings[1].Value
-                        + "\nCountry where movie was produced: " + response.data.Country + "\nLanguage: " + response.data.Language
-                        + "\nPlot: " + response.data.Plot + "\nActors: " + response.data.Actors);
-                }
-            );
-            inquirerLoop();
-        }
+        var queryURL = "https://www.omdbapi.com/?t=" + movieName + "&apikey=trilogy";
+
+        axios.get(queryURL).then(
+            function (response) {
+                console.log("\nMovie Title: " + response.data.Title + "\nYear Released: " + response.data.Year
+                    + "\nIMDB Rating: " + response.data.imdbRating + "\nRotten Tomatoes Rating: " + response.data.Ratings[1].Value
+                    + "\nCountry where movie was produced: " + response.data.Country + "\nLanguage: " + response.data.Language
+                    + "\nPlot: " + response.data.Plot + "\nActors: " + response.data.Actors);
+            }
+        );
+        // inquirerLoop();
     });
 };
 
+// Function that reads from the random.txt file and calls the spotify api
 function doWhatItSays() {
     fs.readFile("random.txt", "utf8", function (error, data) {
         if (error) {
@@ -184,7 +178,7 @@ function doWhatItSays() {
             .catch(function (err) {
                 console.log(err);
             });
-        inquirerLoop();
+        // inquirerLoop();
     })
 }
 
