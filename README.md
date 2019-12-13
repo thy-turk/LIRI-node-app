@@ -9,21 +9,26 @@ It is able to take in user input and provide information on movies, songs, bands
 
 <details><summary>Flow</summary>
 <p>
+
 * The app starts with an inquirer prompt list. The selction from this prompt is then sent to a switch statment which will run the selected function.
+
 ##### Concert Choice:
 * The user is asked to enter a band name.
 * The name is stored in a variable and plugged into an api call using axios.
 * The response is logged to the console
+
 ##### Spotify Choice: 
 * The user is asked to enter a song name.
 * The name is stored in a variable and plugged into an api call using the spotify node npm package.
 * If no song is entered a default is used.
 * The response is logged to the console.
+
 #### Movie Choice: 
 * The user is asked to enter a movie name.
 * The name is stored in a variable and plugged into an api call using axios.
 * If no movie is entered a default is used.
 * The response is logged to the console.
+
 #### Do What is Says Choice:
 * The random.txt file is read using the file system "fs".
 * The info from the file is extracted in a way that is usable.
