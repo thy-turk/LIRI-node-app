@@ -11,7 +11,7 @@ It is able to take in user input and provide information on movies, songs, bands
 
 ## Images showing the app working as intended:
 
-## <details><summary>Image Proofs</summary>
+<details><summary>Image Proofs</summary>
 <p>
 
 #### Shows the concert search functionality:
